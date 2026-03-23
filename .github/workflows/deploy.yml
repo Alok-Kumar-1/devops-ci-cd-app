@@ -24,3 +24,12 @@ jobs:
 
       - name: Push to Docker Hub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:latest
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~
+            ./deploy.sh        
